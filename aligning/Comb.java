@@ -11,7 +11,34 @@ public class Comb
         String l2 = args[1];
 
         //combFile(l1, l2);
-        pred(l1, l2, false);
+        //pred(l1, l2, false);
+        trainTestSplit(l1, l2);
+    }
+
+    public static void trainTestSplit(String l1, String l2) throws IOException
+    {
+        Scanner in = new Scanner(new File("input/" + l1 + "-" + l2 + ".src-tgt"), "UTF8");
+
+        int totalLines = 7139;
+
+        String[] lines = new String[7139];
+        for (int i=0;i<totalLines;++i) lines[i] = in.nextLine();
+        in.close();
+
+        int test = totalLines / 5;
+
+        PrintStream out = new PrintStream("models/training/" + l1 + "-" + l2 + ".test", "UTF8");
+        for (int i=0;i<test;++i)
+        {
+            int si = (int)(Math.random() * (totalLines - i)) + i;
+            out.println(lines[si]);
+            lines[si] = lines[i];
+        }
+        out.close();
+
+        out = new PrintStream("models/training/" + l1 + "-" + l2 + ".train", "UTF8");
+        for (int i=test;i<totalLines;++i) out.println(lines[i]);
+        out.close();
     }
 
     public static void pred(String l1, String l2, boolean fine) throws IOException
