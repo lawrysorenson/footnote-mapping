@@ -5,14 +5,19 @@ public class Comb
 {
     public static void main(String[] args) throws IOException
     {
-        if (args.length != 2) System.exit(-1);
+        String[] lang = {"bul", "ces", "deu", "fin", "pes", "slk", "spa", "tur"};
 
-        String l1 = args[0];
-        String l2 = args[1];
+        for (String l1 : lang)
+        {
+            for (String l2 : lang) if (!l1.equals(l2))
+            {
+                combFile(l1, l2);
+                trainTestSplit(l1, l2);
 
-        //combFile(l1, l2);
-        //pred(l1, l2, false);
-        trainTestSplit(l1, l2);
+                String comb = l1 + "-" + l2;
+                new File("models/" + comb).mkdirs();
+            }
+        }
     }
 
     public static void trainTestSplit(String l1, String l2) throws IOException
