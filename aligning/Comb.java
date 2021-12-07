@@ -7,17 +7,43 @@ public class Comb
     {
         String[] lang = {"bul", "ces", "deu", "fin", "pes", "slk", "spa", "tur"};
 
+        PrintStream out = new PrintStream("run-jobs.sh");
         for (String l1 : lang)
         {
             for (String l2 : lang) if (!l1.equals(l2))
             {
+                String comb = l1 + "-" + l2;
+                System.out.println(comb);
+
                 combFile(l1, l2);
                 trainTestSplit(l1, l2);
 
-                String comb = l1 + "-" + l2;
                 new File("models/" + comb).mkdirs();
+                fillScripts(comb);
+                out.println("sbatch jobs/" + comb + ".sh");
+                out.println("sbatch jobs/" + comb + "-fine.sh");
             }
         }
+        out.close();
+    }
+
+    public static void fillScripts(String comb) throws IOException
+    {
+        Scanner in = new Scanner(new File("run.bash"));
+        StringBuilder build = new StringBuilder();
+        while (in.hasNextLine()) build.append(in.nextLine() + "\n");
+        in.close();
+        PrintStream out = new PrintStream("jobs/" + comb + ".sh");
+        out.println(build.toString().replace("*****", comb));
+        out.close();
+
+        in = new Scanner(new File("run-fine.bash"));
+        build = new StringBuilder();
+        while (in.hasNextLine()) build.append(in.nextLine() + "\n");
+        in.close();
+        out = new PrintStream("jobs/" + comb + "-fine.sh");
+        out.println(build.toString().replace("*****", comb));
+        out.close();
     }
 
     public static void trainTestSplit(String l1, String l2) throws IOException
