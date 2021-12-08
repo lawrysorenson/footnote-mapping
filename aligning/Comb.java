@@ -15,13 +15,16 @@ public class Comb
                 String comb = l1 + "-" + l2;
                 System.out.println(comb);
 
-                combFile(l1, l2);
-                trainTestSplit(l1, l2);
+                // combFile(l1, l2);
+                // trainTestSplit(l1, l2);
 
-                new File("models/" + comb).mkdirs();
-                fillScripts(comb);
-                out.println("sbatch jobs/" + comb + ".sh");
-                out.println("sbatch jobs/" + comb + "-fine.sh");
+                // new File("models/" + comb).mkdirs();
+                // fillScripts(comb);
+                // out.println("sbatch jobs/" + comb + ".sh");
+                // out.println("sbatch jobs/" + comb + "-fine.sh");
+
+                pred(l1, l2, false);
+                pred(l1, l2, true);
             }
         }
         out.close();
@@ -133,7 +136,7 @@ public class Comb
 
         for (char c : line.toCharArray())
         {
-            if (c == ' ' || c == '~')
+            if (Character.isWhitespace(c) || c == 0x00A0 || c == '~')
             {
                 state = 0;
             }
@@ -179,7 +182,7 @@ public class Comb
 
         for (char c : line.toCharArray())
         {
-            if (c == ' ')
+            if (Character.isWhitespace(c) || c == 0x00A0)
             {
                 state = 0;
             }
@@ -239,7 +242,7 @@ public class Comb
 
         for (char c : s.toCharArray())
         {
-            if (c == ' ' || c == '~')
+            if (Character.isWhitespace(c) || c == 0x00A0 || c == '~')
             {
                 state = 0;
             }
