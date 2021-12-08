@@ -4,3 +4,4 @@ aligning/models
 aligning/models/training
 aligning/output
 aligning/jobs
+testing/*.txt
