@@ -17,6 +17,7 @@ public class TestExisting
                 System.out.println(comb);
 
                 compare(l1, l2, false, out, exp);
+                compare(l1, l2, true, out, exp);
             }
         }
         out.close();
@@ -104,18 +105,18 @@ public class TestExisting
             return;
         }
 
-        out.println(l1 + "->" + l2);
-        out.println(correct);
-        out.println(total);
-        out.println((int)preds);
+        out.println(l1 + "->" + l2 + (fine ? " FINE" : ""));
+        // out.println(correct);
+        // out.println(total);
+        // out.println((int)preds);
         
         double precision = 100.0 * correct / total;
         double recall = 100.0 * correct / preds;
         double f1 = 2 / (1 / precision + 1 / recall);
 
-        out.printf("%.3f\n", precision);
-        out.printf("%.3f\n", recall);
-        out.printf("%.3f\n", f1);
+        out.printf("%.2f\n", precision);
+        out.printf("%.2f\n", recall);
+        out.printf("%.2f\n", f1);
         out.println();
     }
 
